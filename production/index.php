@@ -59,9 +59,9 @@
                     <ul class="nav side-menu">
                         <li><a><i class="fa fa-home"></i> Cadastros <span class="fa fa-chevron-down"></span></a>
                             <ul class="nav child_menu">
-                                <li><a href="index.html">Cadastros de Pessoas</a></li>
-                                <li><a href="index2.html">Cadastro de Bairros</a></li>
-                                <li><a href="index3.html">Cadastro de Partidos</a></li>
+                                <li><a href="index.php?action=pessoas">Cadastros de Pessoas</a></li>
+                                <li><a href="index.php?action=bairros">Cadastro de Bairros</a></li>
+                                <li><a href="index.php?action=partidos">Cadastro de Partidos</a></li>
                             </ul>
                         </li>
                         <li><a><i class="fa fa-filter"></i> Filtros <span class="fa fa-chevron-down"></span></a>
