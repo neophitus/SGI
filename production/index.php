@@ -270,8 +270,17 @@
     <!-- bootstrap-daterangepicker -->
     <script src="js/moment/moment.min.js"></script>
     <script src="js/datepicker/daterangepicker.js"></script>
+    
+    <!-- NProgress -->
+    <script src="../vendors/nprogress/nprogress.js"></script>
+    <!-- jQuery Smart Wizard -->
+    <script src="../vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js"></script>
+    <!-- Custom Theme Scripts -->
 
     <!-- Custom Theme Scripts -->
     <script src="js/custom.js"></script>
+    
+    <!-- Formularios -->
+    <script src="js/forms.js"></script>
 </body>
 </html>
