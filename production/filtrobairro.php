@@ -6,9 +6,34 @@
     $crud->username = $db_user;
     $crud->password = $db_pass;
 
-    $SQL = "SELECT * FROM cadview";
+    if(!empty($_POST)) {
+        
+        $bairro = $_POST['filtroregiao'];
+        
+        $SQL = "SELECT cadview.* FROM cadview
+                INNER JOIN relRegiao ON cadview.idcadastros = relRegiao.id_cadastros
+                WHERE relRegiao.id_regiao = $bairro
+                GROUP BY cadview.idcadastros";
+    } else {
+        $SQL = "SELECT cadview.* FROM cadview
+                INNER JOIN relRegiao ON cadview.idcadastros = relRegiao.id_cadastros
+                GROUP BY cadview.idcadastros";
+    }
+    
     $records = $crud->rawSelect($SQL);
     $rows = $records->fetchAll(PDO::FETCH_ASSOC);
+    
+    $SQL = "SELECT * FROM regiao";
+    $records = $crud->rawSelect($SQL);
+    $rowsRegiao = $records->fetchAll(PDO::FETCH_ASSOC);
+    
+    if(!empty($_POST)) {
+        $bairro = $_POST['filtroregiao'];
+        
+        $SQL = "SELECT * FROM regiao WHERE idregiao = $bairro";
+        $records = $crud->rawSelect($SQL);
+        $rowsBairro = $records->fetchAll(PDO::FETCH_ASSOC);
+    }
     
 ?>
 <div class="page-title">
@@ -26,7 +51,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Novo Cadastro</h2>
+                        <h2>Filtro por Bairros</h2>
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
                             <li class="dropdown">
@@ -41,9 +66,23 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                        <?php
-                        include 'forms/pessoas.php';
-                        ?>
+                        <form name="filtrobairro" id="filtrobairro" method="POST" action="index.php?action=filtrobairro">
+                            <div class="input-group">
+                                <select id="filtroregiao" name="filtroregiao" class="form-control">
+                                    <?php
+                                    foreach ($rowsRegiao as $regiao) {
+                                    ?>
+                                    <option value="<?=$regiao['idregiao'];?>"><?=$regiao['bairro'];?></option>
+                                    <?php
+
+                                    }
+                                    ?>
+                                </select>
+                                <span class="input-group-btn">
+                                    <button type="submit" class="btn btn-default">Filtrar...</button>
+                                </span> 
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -51,7 +90,7 @@
         
     <div class="x_panel">
         <div class="x_title">
-            <h2><i class="fa fa-users"></i> Pessoas Cadastradas</h2>
+            <h2><i class="fa fa-users"></i> Pessoas Cadastradas <?php if(!empty($_POST)) { echo " - " . $rowsBairro[0]['bairro']; } ?></h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li><a><i class="fa fa-arrow-circle-o-up"></i></a>
                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
@@ -67,7 +106,7 @@
                             <th class="column-title">Nome Completo </th>
                             <th class="column-title">Tipo </th>
                             <th class="column-title">Part. </th>
-                            <th class="column-title">Cel. </th>
+                            <th class="column-title">Bairro </th>
                             <th class="column-title">E-mail </th>
                         </tr>
                     </thead>
@@ -79,7 +118,7 @@
                             <td ><?=$row['nome'];?></td>
                             <td ><?=$row['tipo'];?></td>
                             <td ><?=$row['sigla_partido'];?></td>
-                            <td ><?=$row['tel_celular'];?></td>
+                            <td ><?=$row['bairro'];?></td>
                             <td ><?=$row['email'];?></td>
                         </tr>
                         <?php
